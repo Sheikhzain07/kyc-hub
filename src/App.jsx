@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Layout } from "antd";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import ProductDetails from "./pages/ProductDetails";
+import CompareProducts from "./pages/CompareProducts";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+const { Content } = Layout;
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Provider store={store}>
+      <Router>
+        <Layout style={{ minHeight: "100vh" }}>
+          <Navbar />
+          <Layout>
+            <Sidebar />
+            <Layout style={{ padding: "0 24px 24px" }}>
+              <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
+                <Routes>
+                  <Route path="/" element={<ProductDetails />} />
+                  <Route path="/compare" element={<CompareProducts />} />
+                </Routes>
+              </Content>
+            </Layout>
+          </Layout>
+        </Layout>
+      </Router>
+    </Provider>
+  );
 }
 
-export default App
+export default App;
